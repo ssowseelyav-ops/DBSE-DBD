@@ -1,0 +1,381 @@
+﻿Student Records Application
+Complete Installation Guide — Spring Boot + MongoDB + VS Code
+Purpose: This is a separate installation-only guide for the recoded Student Records application. The application uses MongoDB and Spring Data MongoDB, and it is developed and executed in Visual Studio Code. The original application used PostgreSQL/JPA/Hibernate and IntelliJ IDEA; those are not required for this version.
+1. Application Technology Stack
+Software / Technology
+Purpose
+Required?
+JDK 17
+Compile and run the Java/Spring Boot application
+Yes
+Visual Studio Code
+Write, edit, run and debug the application
+Yes
+Extension Pack for Java
+Java language support, debugging, testing and Maven integration
+Yes
+Spring Boot Extension Pack
+Spring Boot tools, Spring Initializr and dashboard support
+Yes
+Apache Maven
+Build tool and dependency management
+Optional if Maven Wrapper is used
+Maven Wrapper
+Project-specific Maven launcher
+Recommended
+MongoDB Community Server
+Database server
+Yes
+MongoDB Compass
+Graphical MongoDB client
+Optional but recommended
+Postman
+Test REST APIs
+Recommended
+2. Before You Start
+This guide assumes a Windows 10/11 computer and the Student Records application described in the supplied application document. The application is configured for Java 17, MongoDB at localhost:27017, database name student_records, and server port 8080.
+3. Installation Sequence
+Install JDK 17.
+Verify Java and the Java compiler.
+Install Visual Studio Code.
+Install the Extension Pack for Java inside VS Code.
+Install the Spring Boot Extension Pack inside VS Code.
+Install Apache Maven globally if you want the mvn command available; otherwise use the project's Maven Wrapper.
+Install MongoDB Community Server.
+Start MongoDB and verify that it is listening on localhost:27017.
+Install MongoDB Compass if you want a graphical view of the database.
+Install Postman for REST API testing.
+Create the Spring Boot project using Spring Initializr or open the supplied project folder.
+Run the application and test the APIs.
+4. Install JDK 17
+The Student Records application specifies Java 17 in the project configuration. The JDK is needed because Java development requires both the runtime and the Java compiler.
+4.1 Download JDK 17
+Recommended Windows source: Eclipse Temurin JDK.
+Official download page: https://adoptium.net/temurin/releases/
+Open the download page.
+Select JDK 17 (LTS).
+Select Windows.
+Select x64 for a normal 64-bit Windows computer.
+Download the Windows MSI installer.
+4.2 Install JDK 17
+Open the downloaded MSI file.
+Accept the license agreement.
+Keep the default installation directory unless your institution specifies another location.
+If the installer provides options to add Java to PATH and configure JAVA_HOME, enable them.
+Click Install.
+Click Finish.
+4.3 Verify JDK installation
+Open a NEW Command Prompt or VS Code terminal. Run:
+java -version
+javac -version
+Both commands should be recognized and should report Java 17.
+4.4 If Java is not recognized
+Configure JAVA_HOME and PATH manually.
+Search Windows for Environment Variables.
+Open Edit the system environment variables.
+Click Environment Variables.
+Under System variables, click New.
+Variable name: JAVA_HOME
+Variable value: the JDK installation folder, for example C:\Program Files\Eclipse Adoptium\jdk-17.x.x-hotspot
+Select Path → Edit → New.
+Add: %JAVA_HOME%\bin
+Click OK on all dialogs.
+Close and reopen VS Code/Command Prompt.
+Run java -version and javac -version again.
+5. Install Visual Studio Code
+VS Code is the development environment used in the MongoDB version of the Student Records application.
+Official download page: https://code.visualstudio.com/
+Open the VS Code website.
+Download the Windows installer.
+Run the installer.
+Accept the license.
+Keep the default installation location.
+If offered, enable Add to PATH.
+Complete the installation.
+Open VS Code.
+5.1 Verify VS Code
+Open Command Prompt and run:
+code --version
+If a version is displayed, the command-line launcher is available. You can also simply open VS Code from the Windows Start menu.
+6. Install Extension Pack for Java
+This is installed INSIDE VS Code. It is not the same as installing the JDK.
+Open VS Code.
+Press Ctrl + Shift + X to open Extensions.
+In the search box type: Extension Pack for Java.
+Select the Microsoft Java extension pack.
+Click Install.
+Wait for installation to finish.
+Reload VS Code if requested.
+6.1 What does the Java Extension Pack provide?
+Java language support and code completion.
+Java debugging.
+Java test execution.
+Maven project support.
+Java project management.
+Additional coding assistance.
+6.2 Verify Java support in VS Code
+Press Ctrl + Shift + P.
+Search for Java: Configure Java Runtime.
+Open the command.
+Confirm that JDK 17 is detected.
+Open a .java file and check that Java syntax highlighting and code completion are available.
+7. Install Spring Boot Extension Pack
+This extension pack gives VS Code Spring Boot-specific development support.
+Press Ctrl + Shift + X.
+Search for Spring Boot Extension Pack.
+Select the Spring Boot Extension Pack.
+Click Install.
+Wait for the included extensions to install.
+Reload VS Code if requested.
+7.1 Verify Spring Boot support
+Press Ctrl + Shift + P.
+Search for Spring Initializr.
+Spring-related project-generation commands should appear.
+If Spring Boot Dashboard is available, it can be used to view/run Spring Boot applications.
+8. Install Apache Maven
+Maven is the build and dependency-management tool used by the Spring Boot project. It reads pom.xml, downloads dependencies, compiles Java source code and can start the Spring Boot application.
+Note: Maven is NOT installed as a normal VS Code extension. The Maven for Java extension provides VS Code integration, while Apache Maven is a separate build tool.
+8.1 Do you need global Maven?
+Not necessarily. A Spring Initializr Maven project normally contains Maven Wrapper files such as mvnw.cmd. The wrapper allows the project to use its configured Maven version. For this reason, global Maven is optional for running the supplied project.
+However, installing global Maven is useful for learning Maven and for commands such as generating a wrapper.
+8.2 Download Apache Maven
+Official Apache Maven installation page: https://maven.apache.org/install.html
+Open the Maven installation/download page.
+Download the Binary zip archive.
+Do not select the source archive for normal development.
+8.3 Extract Maven
+Create a folder such as C:\Tools.
+Extract the Maven ZIP into C:\Tools.
+You should have a folder similar to C:\Tools\apache-maven-3.9.x.
+Inside that folder, confirm that the bin folder exists.
+Inside bin, confirm that mvn.cmd exists.
+C:\Tools\apache-maven-3.9.x\bin\mvn.cmd
+8.4 Configure MAVEN_HOME
+Search Windows for Environment Variables.
+Open Edit the system environment variables.
+Click Environment Variables.
+Under System variables, click New.
+Variable name: MAVEN_HOME
+Variable value: C:\Tools\apache-maven-3.9.x
+Click OK.
+8.5 Add Maven to PATH
+Under System variables, select Path.
+Click Edit.
+Click New.
+Enter: %MAVEN_HOME%\bin
+Click OK → OK → OK.
+8.6 Verify Maven
+Close the old terminal and open a NEW terminal:
+mvn -version
+The output should display Apache Maven, Maven home, Java version and operating-system information.
+9. Maven Wrapper for This Student Records Project
+The Maven Wrapper is project-specific. On Windows the important command is mvnw.cmd.
+When you open the project folder, check for:
+mvnw
+mvnw.cmd
+.mvn\wrapper\
+maven-wrapper.properties
+9.1 Run with Maven Wrapper
+Open the VS Code terminal at the project root — the folder containing pom.xml — and run:
+mvnw.cmd -version
+mvnw.cmd spring-boot:run
+9.2 If mvnw.cmd is missing
+If global Maven is installed, generate the wrapper from the project root:
+mvn wrapper:wrapper
+Then run:
+mvnw.cmd spring-boot:run
+9.3 Important difference
+Command
+Uses
+Purpose
+mvn
+Global Maven
+Uses Maven installed on Windows
+mvnw.cmd
+Project Maven Wrapper
+Uses the Maven version configured for the project
+Maven for Java
+VS Code extension
+Provides Maven integration inside VS Code
+10. Install MongoDB Community Server
+The supplied recoded application uses MongoDB instead of PostgreSQL. The application connects to MongoDB using:
+mongodb://localhost:27017/student_records
+No SQL CREATE DATABASE command is required. MongoDB creates the database/collection when documents are first stored.
+Official MongoDB Community Server download page: https://www.mongodb.com/try/download/community
+Open the MongoDB Community Server download page.
+Select the Windows x64 package.
+Select the MSI installer.
+Download and run the installer.
+Choose the normal/complete installation.
+If MongoDB Compass is offered as an installation option, you may install it as well.
+Finish the installation.
+10.1 Start and verify MongoDB
+MongoDB can be installed as a Windows service.
+Open Windows Services by searching for Services.
+Look for the MongoDB service.
+Make sure the service is running.
+Alternatively, open MongoDB Compass and test the local connection.
+mongodb://localhost:27017
+10.2 Important distinction: MongoDB Server vs Compass
+MongoDB Community Server is the database server. MongoDB Compass is a graphical client. Spring Boot connects directly to the MongoDB server. Compass is only used to inspect/manage the data visually.
+11. Install MongoDB Compass
+Compass is optional for the application but strongly recommended for students because it makes database documents easy to inspect.
+Install Compass if it was not installed with MongoDB.
+Open MongoDB Compass.
+Enter mongodb://localhost:27017.
+Click Connect.
+After the application inserts the first student/user, you can inspect the student_records database.
+12. Install Postman
+Postman is used to test the REST endpoints without building a frontend.
+Official download page: https://www.postman.com/downloads/
+Download the Windows version.
+Run the installer.
+Open Postman.
+Complete any current sign-in/local setup requested by Postman.
+After the Spring Boot server starts, create requests to http://localhost:8080.
+13. Create the Student Records Spring Boot Project
+After installing the prerequisites, create the application using Spring Initializr.
+Open: https://start.spring.io/
+Project: Maven.
+Language: Java.
+Packaging: Jar.
+Java: 17.
+Artifact: student-records.
+Add Spring Web.
+Add Spring Data MongoDB.
+Add Validation.
+Add Spring Security.
+Generate the project.
+Extract the ZIP file.
+Open the extracted student-records folder in VS Code.
+13.1 Open the correct folder in VS Code
+Use File → Open Folder and select the folder that contains pom.xml.
+The project root should contain files/folders similar to:
+student-records/├── pom.xml├── mvnw├── mvnw.cmd├── .mvn/└── src/
+Note: Do not open only the src folder. Open the project root containing pom.xml.
+14. Verify the Project Dependencies
+The supplied application uses these major dependencies:
+Spring Web — REST API and embedded web server.
+Spring Data MongoDB — MongoDB integration and MongoRepository.
+Spring Boot Validation — @Valid and validation annotations.
+Spring Security — authentication and authorization.
+JJWT — JWT token generation/validation.
+Spring Boot Test — testing support.
+These dependencies are declared in pom.xml. Maven downloads them when the project is built/run.
+15. Configure MongoDB
+Open:
+src/main/resources/application.properties
+The MongoDB version uses:
+spring.application.name=student-recordsspring.data.mongodb.uri=mongodb://localhost:27017/student_recordsjwt.secret=replace-this-with-a-long-random-secret-at-least-32-charactersjwt.expiration-ms=3600000server.port=8080
+Note: There is no PostgreSQL datasource URL, Hibernate dialect, or ddl-auto setting in this MongoDB version.
+16. First Execution
+Follow these steps in exactly this order.
+Start MongoDB.
+Open VS Code.
+Open the student-records project root.
+Open Terminal → New Terminal.
+Make sure the terminal is in the directory containing pom.xml and mvnw.cmd.
+Run mvnw.cmd spring-boot:run.
+Wait for Spring Boot to finish startup.
+The application listens on port 8080 unless server.port has been changed.
+mvnw.cmd spring-boot:run
+16.1 Alternative: use global Maven
+mvn spring-boot:run
+This works if Apache Maven has been installed globally and mvn -version works.
+16.2 Alternative: Run button in VS Code
+Open StudentRecordsApplication.java.
+Locate the main() method.
+VS Code should display Run/Debug options above the main method when Java/Spring support is loaded.
+Click Run.
+17. Confirm That the Application Started
+Look in the VS Code terminal for the Spring Boot startup log. The embedded web server should start on port 8080.
+At this point MongoDB does not necessarily contain student records. The database is populated when the application saves documents.
+18. Basic Postman Execution Sequence
+The application is secured with JWT. Therefore, students should first register and log in before calling the protected /students endpoints.
+18.1 Register
+POST http://localhost:8080/auth/register
+{  "username": "asha",  "password": "secret123"}
+18.2 Login
+POST http://localhost:8080/auth/login
+{  "username": "asha",  "password": "secret123"}
+Copy the token returned by the login response.
+18.3 Create a Student
+In Postman, select Authorization → Bearer Token and paste the JWT.
+POST http://localhost:8080/students
+{  "name": "Asha Rao",  "age": 20,  "course": "B.Tech CSE",  "email": "asha@example.com"}
+18.4 Verify MongoDB
+Open MongoDB Compass and look for:
+student_records → students
+The student document should be visible after the successful POST request.
+19. Installation Verification Checklist
+JDK 17 installed.
+java -version works.
+javac -version works.
+VS Code installed.
+Extension Pack for Java installed.
+Spring Boot Extension Pack installed.
+Maven installed globally OR Maven Wrapper available.
+mvn -version works if global Maven is installed.
+mvnw.cmd -version works from the project root.
+MongoDB Community Server installed.
+MongoDB service is running.
+mongodb://localhost:27017 connects successfully.
+MongoDB Compass installed if required.
+Postman installed.
+Spring Initializr project generated/opened.
+pom.xml is visible in the project root.
+application.properties contains the MongoDB URI.
+mvnw.cmd spring-boot:run starts the application.
+Register and login work.
+A student can be created using a JWT.
+The students collection is visible in MongoDB Compass.
+20. Common Installation Problems
+Problem
+Likely Cause
+Action
+java is not recognized
+JDK/PATH issue
+Check JAVA_HOME and %JAVA_HOME%\bin; reopen terminal
+javac is not recognized
+Compiler not on PATH
+Check JDK installation and PATH
+mvn is not recognized
+Global Maven not configured
+Check MAVEN_HOME and PATH, or use mvnw.cmd
+mvnw.cmd is not recognized
+Wrong directory/wrapper missing
+Open the terminal in the project root and check mvnw.cmd
+No Java commands in VS Code
+Java extensions missing
+Install Extension Pack for Java and reload
+No Spring Initializr commands
+Spring extension missing
+Install Spring Boot Extension Pack
+MongoDB connection refused
+MongoDB server stopped
+Start the MongoDB Windows service
+Application cannot connect to MongoDB
+Wrong URI or server not running
+Check mongodb://localhost:27017/student_records
+Port 8080 already in use
+Another application is using 8080
+Stop that application or change server.port
+Dependencies are red in VS Code
+Maven project not imported yet
+Wait for Maven import or reload the Java/Maven project
+21. Final Student Workflow
+Install JDK 17      ↓Install VS Code      ↓Install Extension Pack for Java      ↓Install Spring Boot Extension Pack      ↓Install Maven OR use Maven Wrapper      ↓Install MongoDB Community Server      ↓Start MongoDB      ↓Install Compass/Postman      ↓Create/Open Spring Boot project      ↓Open folder containing pom.xml      ↓Configure application.properties      ↓Run: mvnw.cmd spring-boot:run      ↓Register → Login → JWT      ↓Test /students in Postman      ↓Verify documents in MongoDB Compass
+22. Important Application-Specific Details
+The supplied Student Records application uses MongoDB rather than PostgreSQL. The application document specifies the MongoDB URI mongodb://localhost:27017/student_records, uses Spring Data MongoDB/MongoRepository, represents the Student as a MongoDB document, and uses VS Code rather than IntelliJ IDEA. The application also includes Validation and Spring Security/JWT.
+The architecture remains:
+Client → Controller → Service → MongoRepository → MongoDB
+23. Official Installation References
+JDK: https://adoptium.net/temurin/releases/
+VS Code: https://code.visualstudio.com/
+Apache Maven: https://maven.apache.org/install.html
+Maven Wrapper: https://maven.apache.org/tools/mavenwrapper.html
+MongoDB Community Server: https://www.mongodb.com/try/download/community
+Postman: https://www.postman.com/downloads/
+Spring Initializr: https://start.spring.io/
+24. Instructor Note
+For a student lab, the simplest reliable execution path is: JDK 17 + VS Code + Java Extension Pack + Spring Boot Extension Pack + MongoDB Community Server + Postman, then use the project's Maven Wrapper with mvnw.cmd. Global Maven can be taught separately so students understand what Maven is, but it does not need to be a prerequisite if the supplied project already contains the Maven Wrapper.
